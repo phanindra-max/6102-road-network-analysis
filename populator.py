@@ -2,17 +2,23 @@
 # MySQL Connection & Population
 import csv
 import mysql.connector
+from pymongo import MongoClient
+from neo4j import GraphDatabase
+from tqdm import tqdm
 
+#%%
 connection = mysql.connector.connect(
     host="localhost",
     user="root",
-    password="",
-    database="final_road_network"
+    database = "final_road_network",
 )
 print("Connected to MySQL successfully!")
 
 connection.autocommit = False # for improving performance
 cursor = connection.cursor()
+
+# Create database in SQL if not exists
+# CREATE DATABASE IF NOT EXISTS final_road_network
 
 create_table_query = """
 CREATE TABLE IF NOT EXISTS roads (
@@ -48,8 +54,6 @@ connection.commit()
 cursor.close()
 
 #%%
-from pymongo import MongoClient
-
 # Connect to MongoDB
 client = MongoClient('mongodb://localhost:27017/')
 print("Connected to MongoDB successfully!")
@@ -73,9 +77,6 @@ with open('final_road_network.csv', 'r') as file:
 print("250,000 documents Data populated into MongoDB successfully!")
 
 #%%
-from neo4j import GraphDatabase
-from tqdm import tqdm 
-
 # Connect to Neo4j
 uri = "neo4j://localhost:7687"
 driver = GraphDatabase.driver(uri, auth=("neo4j", "12345678"))
