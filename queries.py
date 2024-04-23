@@ -24,11 +24,11 @@ start_cpu = psutil.cpu_percent()
 start_memory = psutil.virtual_memory().used
 cursor.execute(query)
 results = cursor.fetchall()
+query1_sql_time = time.time() - start_time
+query1_sql_cpu = abs(psutil.cpu_percent() - start_cpu)
+query1_sql_memory = abs(psutil.virtual_memory().used - start_memory)
 for row in results:
     print(f"From: {row[0]}, To: {row[1]}, Distance: {row[2]}")
-query1_sql_time = time.time() - start_time
-query1_sql_cpu = psutil.cpu_percent() - start_cpu
-query1_sql_memory = psutil.virtual_memory().used - start_memory
 print(f'\n\nMySQL Query 1 executed successfully in {query1_sql_time} seconds!')
 print(f'CPU Usage: {query1_sql_cpu}%')
 print(f'Memory Usage: {query1_sql_memory/1024} KB', end="\n\n")
@@ -51,8 +51,8 @@ print("Top 5 Average distance per city pairs:")
 for row in results:
     print(f"From: {row[0]}, To: {row[1]}, Average Distance: {row[2]}")
 query2_sql_time = time.time() - start_time
-query2_sql_cpu = psutil.cpu_percent() - start_cpu
-query2_sql_memory = psutil.virtual_memory().used - start_memory
+query2_sql_cpu = abs(psutil.cpu_percent() - start_cpu)
+query2_sql_memory = abs(psutil.virtual_memory().used - start_memory)
 print(f'\n\nMySQL Query 2 executed successfully in {query2_sql_time} seconds!')
 print(f'CPU Usage: {query2_sql_cpu}%')
 print(f'Memory Usage: {query2_sql_memory/1024} KB', end="\n\n")
@@ -83,8 +83,8 @@ print("Cities within 2 hop from Richmond (MySQL):")
 for row in results:
     print(f"City: {row[0]}, Distance: {row[1]} miles")
 query3_sql_time = time.time() - start_time
-query3_sql_cpu = psutil.cpu_percent() - start_cpu
-query3_sql_memory = psutil.virtual_memory().used - start_memory
+query3_sql_cpu = abs(psutil.cpu_percent() - start_cpu)
+query3_sql_memory = abs(psutil.virtual_memory().used - start_memory)
 print(f'\n\nMySQL Query 3 executed successfully in {query3_sql_time} seconds!')
 print(f'CPU Usage: {query3_sql_cpu}%')
 print(f'Memory Usage: {query3_sql_memory/1024} KB', end="\n\n")
@@ -121,8 +121,8 @@ if result:
 else:
     print("No path found between Richmond and Amman with at most 2 hops.")
 query4_sql_time = time.time() - start_time
-query4_sql_cpu = psutil.cpu_percent() - start_cpu
-query4_sql_memory = psutil.virtual_memory().used - start_memory
+query4_sql_cpu = abs(psutil.cpu_percent() - start_cpu)
+query4_sql_memory = abs(psutil.virtual_memory().used - start_memory)
 print(f"\n\nMySQL Query 4 executed successfully in {query4_sql_time} seconds!")
 print(f'CPU Usage: {query4_sql_cpu}%')
 print(f'Memory Usage: {query4_sql_memory/1024} KB', end="\n\n")
@@ -152,8 +152,8 @@ results = collection.find(query, {"_id": 0})
 for row in results:
     print(f"From: {row['fromCity']}, To: {row['toCity']}, Distance: {row['distance']}")
 query1_mongo_time = time.time() - start_time
-query1_mongo_cpu = psutil.cpu_percent() - start_cpu
-query1_mongo_memory = psutil.virtual_memory().used - start_memory
+query1_mongo_cpu = abs(psutil.cpu_percent() - start_cpu)
+query1_mongo_memory = abs(psutil.virtual_memory().used - start_memory)
 print(f'\n\nMongo Query 1 executed successfully in {query1_mongo_time} seconds!')
 print(f'CPU Usage: {query1_mongo_cpu}%')
 print(f'Memory Usage: {query1_mongo_memory/1024} KB', end="\n\n")
@@ -190,8 +190,8 @@ print("Top 5 Average distance per city pairs:")
 for row in results:
     print(f"From: {row['fromCity']}, To: {row['toCity']}, Average Distance: {row['avg_distance']}")
 query2_mongo_time = time.time() - start_time
-query2_mongo_cpu = psutil.cpu_percent() - start_cpu
-query2_mongo_memory = psutil.virtual_memory().used - start_memory
+query2_mongo_cpu = abs(psutil.cpu_percent() - start_cpu)
+query2_mongo_memory = abs(psutil.virtual_memory().used - start_memory)
 print(f'\n\nMongo Query 2 executed successfully in {query2_mongo_time} seconds!')
 print(f'CPU Usage: {query2_mongo_cpu}%')
 print(f'Memory Usage: {query2_mongo_memory/1024} KB', end="\n\n")
@@ -253,13 +253,14 @@ print("Cities within 2 hops from Richmond:")
 start_time = time.time()
 start_cpu = psutil.cpu_percent()
 start_memory = psutil.virtual_memory().used
+
 results = find_cities_within_hops("Richmond")
 for row in results:
     print(f"City: {row['city']}, Distance: {row['distance']}")
 
 query3_mongo_time = time.time() - start_time
-query3_mongo_cpu = psutil.cpu_percent() - start_cpu
-query3_mongo_memory = psutil.virtual_memory().used - start_memory
+query3_mongo_cpu = abs(psutil.cpu_percent() - start_cpu)
+query3_mongo_memory = abs(psutil.virtual_memory().used - start_memory)
 print(f'\n\nMongo Query 3 executed successfully in {query3_mongo_time} seconds!')
 print(f'CPU Usage: {query3_mongo_cpu}%')
 print(f'Memory Usage: {query3_mongo_memory/1024} KB', end="\n\n")
@@ -312,14 +313,14 @@ start_time = time.time()
 start_cpu = psutil.cpu_percent()
 start_memory = psutil.virtual_memory().used
 path, distance = find_shortest_path_bfs(start_city, end_city, max_hops)
+query4_mongo_time = time.time() - start_time
+query4_mongo_cpu = abs(psutil.cpu_percent() - start_cpu)
+query4_mongo_memory = abs(psutil.virtual_memory().used - start_memory)
 if path:
     print(f"Shortest Path: {' -> '.join(path)}")
     print(f"Distance: {distance}")
 else:
     print(f"No path found between {start_city} and {end_city} within {max_hops} hops.")
-query4_mongo_time = time.time() - start_time
-query4_mongo_cpu = psutil.cpu_percent() - start_cpu
-query4_mongo_memory = psutil.virtual_memory().used - start_memory
 print(f'\n\nMongo Query 4 executed successfully in {query4_mongo_time} seconds!')
 print(f'CPU Usage: {query4_mongo_cpu}%')
 print(f'Memory Usage: {query4_mongo_memory/1024} KB', end="\n\n")
@@ -329,7 +330,6 @@ client.close()
 
 #%%
 from neo4j import GraphDatabase
-from tqdm import tqdm 
 
 # Connect to Neo4j
 uri = "neo4j://localhost:7687"
@@ -354,13 +354,13 @@ start_memory = psutil.virtual_memory().used
 with driver.session() as session:
     results = session.execute_read(find_routes, "Richmond", "Atlanta", 500)
 
+query1_neo_time = time.time() - start_time
+query1_neo_cpu = abs(psutil.cpu_percent() - start_cpu)
+query1_neo_memory = abs(psutil.virtual_memory().used - start_memory)
 # Print the results
 for row in results:
     print(f"From: {row[0]}, To: {row[1]}, Distance: {row[2]}")
 
-query1_neo_time = time.time() - start_time
-query1_neo_cpu = psutil.cpu_percent() - start_cpu
-query1_neo_memory = psutil.virtual_memory().used - start_memory
 print(f'\n\nNeo4j Query 1 executed successfully in {query1_neo_time} seconds!')
 print(f'CPU Usage: {query1_neo_cpu}%')
 print(f'Memory Usage: {query1_neo_memory/1024} KB', end="\n\n")
@@ -383,12 +383,12 @@ start_cpu = psutil.cpu_percent()
 start_memory = psutil.virtual_memory().used
 with driver.session() as session:
     results = session.execute_read(calculate_avg_distance)
+query2_neo_time = time.time() - start_time
+query2_neo_cpu = abs(psutil.cpu_percent() - start_cpu)
+query2_neo_memory = abs(psutil.virtual_memory().used - start_memory)
 print("Top 5 Average distance per city pairs:")
 for row in results:
     print(f"From: {row[0]}, To: {row[1]}, Average Distance: {row[2]}")
-query2_neo_time = time.time() - start_time
-query2_neo_cpu = psutil.cpu_percent() - start_cpu
-query2_neo_memory = psutil.virtual_memory().used - start_memory
 print(f'\n\nNeo4j Query 2 executed successfully in {query2_neo_time} seconds!')
 print(f'CPU Usage: {query2_neo_cpu}%')
 print(f'Memory Usage: {query2_neo_memory/1024} KB', end="\n\n")
@@ -409,11 +409,11 @@ start_cpu = psutil.cpu_percent()
 start_memory = psutil.virtual_memory().used
 with driver.session() as session:
     results = session.execute_read(find_cities_within_hops, "Richmond", 2)
+query3_neo_time = time.time() - start_time
+query3_neo_cpu = abs(psutil.cpu_percent() - start_cpu)
+query3_neo_memory = abs(psutil.virtual_memory().used - start_memory)
 for row in results:
     print(f"City: {row[0]}, Distance: {row[1]}")
-query3_neo_time = time.time() - start_time
-query3_neo_cpu = psutil.cpu_percent() - start_cpu
-query3_neo_memory = psutil.virtual_memory().used - start_memory
 print(f'\n\nNeo4j Query 3 executed successfully in {query3_neo_time} seconds!')
 print(f'CPU Usage: {query3_neo_cpu}%')
 print(f'Memory Usage: {query3_neo_memory/1024} KB', end="\n\n")
@@ -437,14 +437,14 @@ start_cpu = psutil.cpu_percent()
 start_memory = psutil.virtual_memory().used
 with driver.session() as session:
     result = session.execute_read(find_shortest_path, "Richmond", "Amman", 2)
+query4_neo_time = time.time() - start_time
+query4_neo_cpu = abs(psutil.cpu_percent() - start_cpu)
+query4_neo_memory = abs(psutil.virtual_memory().used - start_memory)
 if result:
     print(f"Shortest Path: {' -> '.join([record['name'] for record in result['cities']])}")
     print(f"Distance: {result['total_distance']}")
 else:
     print("No path found between Richmond and Amman with at most 2 hops.")
-query4_neo_time = time.time() - start_time
-query4_neo_cpu = psutil.cpu_percent() - start_cpu
-query4_neo_memory = psutil.virtual_memory().used - start_memory
 print(f'\n\nNeo4j Query 4 executed successfully in {query4_neo_time} seconds!')
 print(f'CPU Usage: {query4_neo_cpu}%')
 print(f'Memory Usage: {query4_neo_memory/1024} KB', end="\n\n")
@@ -526,9 +526,19 @@ axes[3, 2].set_ylabel('Memory Usage (bytes)')
 axes[3, 2].set_title('Query 4 Memory Usage')
 
 # Add a legend to each subplot
+# Define colors for each database
+colors = ['#ff7f0e', '#2ca02c', '#1f77b4'] 
+# Add a legend to each subplot
 for i in range(4):
     for j in range(3):
-        axes[i, j].legend(databases)
+        for k, db in enumerate(databases):
+            axes[i, j].bar(k, [query1_times, query1_cpu, query1_memory,
+                               query2_times, query2_cpu, query2_memory,
+                               query3_times, query3_cpu, query3_memory,
+                               query4_times, query4_cpu, query4_memory][i*3+j][k],
+                           color=colors[k])
+        axes[i, j].set_xticks(range(len(databases)))
+        axes[i, j].set_xticklabels(databases)
 
 # Adjust spacing between subplots
 plt.tight_layout()
@@ -538,4 +548,77 @@ plt.savefig('query_performance_comparison.png')
 
 # Display the plot
 plt.show()
+
+
 # %%
+# Create lists to store the values for each database and query
+databases = ['MySQL', 'MongoDB', 'Neo4j']
+
+query_times = [
+    [query1_sql_time, query1_mongo_time, query1_neo_time],
+    [query2_sql_time, query2_mongo_time, query2_neo_time],
+    [query3_sql_time, query3_mongo_time, query3_neo_time],
+    [query4_sql_time, query4_mongo_time, query4_neo_time]
+]
+
+query_cpu = [
+    [query1_sql_cpu, query1_mongo_cpu, query1_neo_cpu],
+    [query2_sql_cpu, query2_mongo_cpu, query2_neo_cpu],
+    [query3_sql_cpu, query3_mongo_cpu, query3_neo_cpu],
+    [query4_sql_cpu, query4_mongo_cpu, query4_neo_cpu]
+]
+
+query_memory = [
+    [query1_sql_memory, query1_mongo_memory, query1_neo_memory],
+    [query2_sql_memory, query2_mongo_memory, query2_neo_memory],
+    [query3_sql_memory, query3_mongo_memory, query3_neo_memory],
+    [query4_sql_memory, query4_mongo_memory, query4_neo_memory]
+]
+
+# Create a figure for execution time comparison
+fig_time, ax_time = plt.subplots(figsize=(10, 6))
+x = range(len(databases))
+
+for i, times in enumerate(query_times):
+    ax_time.plot(x, times, marker='o', label=f'Query {i+1}')
+
+ax_time.set_xticks(x)
+ax_time.set_xticklabels(databases)
+ax_time.set_ylabel('Execution Time (seconds)')
+ax_time.set_title('Execution Time Comparison')
+ax_time.legend()
+
+plt.tight_layout()
+plt.savefig('execution_time_comparison_line.png')
+
+# Create a figure for CPU usage comparison
+fig_cpu, ax_cpu = plt.subplots(figsize=(10, 6))
+
+for i, cpu in enumerate(query_cpu):
+    ax_cpu.plot(x, cpu, marker='o', label=f'Query {i+1}')
+
+ax_cpu.set_xticks(x)
+ax_cpu.set_xticklabels(databases)
+ax_cpu.set_ylabel('CPU Usage (%)')
+ax_cpu.set_title('CPU Usage Comparison')
+ax_cpu.legend()
+
+plt.tight_layout()
+plt.savefig('cpu_usage_comparison_line.png')
+
+# Create a figure for memory usage comparison
+fig_memory, ax_memory = plt.subplots(figsize=(10, 6))
+
+for i, memory in enumerate(query_memory):
+    ax_memory.plot(x, memory, marker='o', label=f'Query {i+1}')
+
+ax_memory.set_xticks(x)
+ax_memory.set_xticklabels(databases)
+ax_memory.set_ylabel('Memory Usage (bytes)')
+ax_memory.set_title('Memory Usage Comparison')
+ax_memory.legend()
+
+plt.tight_layout()
+plt.savefig('memory_usage_comparison_line.png')
+
+plt.show()
