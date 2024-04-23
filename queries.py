@@ -454,57 +454,88 @@ import matplotlib.pyplot as plt
 
 # Create lists to store the values for each database
 databases = ['MySQL', 'MongoDB', 'Neo4j']
-query_times = [query1_sql_time, query1_mongo_time, query1_neo_time]
-query_cpu = [query1_sql_cpu, query1_mongo_cpu, query1_neo_cpu]
-query_memory = [query1_sql_memory, query1_mongo_memory, query1_neo_memory]
+query1_times = [query1_sql_time, query1_mongo_time, query1_neo_time]
+query1_cpu = [query1_sql_cpu, query1_mongo_cpu, query1_neo_cpu]
+query1_memory = [query1_sql_memory, query1_mongo_memory, query1_neo_memory]
 
-# Create a figure with subplots for bar plots
-fig_bar, (ax1_bar, ax2_bar, ax3_bar) = plt.subplots(1, 3, figsize=(15, 5))
+query2_times = [query2_sql_time, query2_mongo_time, query2_neo_time]
+query2_cpu = [query2_sql_cpu, query2_mongo_cpu, query2_neo_cpu]
+query2_memory = [query2_sql_memory, query2_mongo_memory, query2_neo_memory]
 
-# Plot execution time (bar plot)
-ax1_bar.bar(databases, query_times)
-ax1_bar.set_ylabel('Execution Time (seconds)')
-ax1_bar.set_title('Query Execution Time (Bar Plot)')
+query3_times = [query3_sql_time, query3_mongo_time, query3_neo_time]
+query3_cpu = [query3_sql_cpu, query3_mongo_cpu, query3_neo_cpu]
+query3_memory = [query3_sql_memory, query3_mongo_memory, query3_neo_memory]
 
-# Plot CPU usage (bar plot)
-ax2_bar.bar(databases, query_cpu)
-ax2_bar.set_ylabel('CPU Usage (%)')
-ax2_bar.set_title('Query CPU Usage (Bar Plot)')
+query4_times = [query4_sql_time, query4_mongo_time, query4_neo_time]
+query4_cpu = [query4_sql_cpu, query4_mongo_cpu, query4_neo_cpu]
+query4_memory = [query4_sql_memory, query4_mongo_memory, query4_neo_memory]
 
-# Plot memory usage (bar plot)
-ax3_bar.bar(databases, query_memory)
-ax3_bar.set_ylabel('Memory Usage (bytes)')
-ax3_bar.set_title('Query Memory Usage (Bar Plot)')
+# Create a figure with subplots for each query
+fig, axes = plt.subplots(4, 3, figsize=(15, 20))
+
+# Plot Query 1 performance
+axes[0, 0].bar(databases, query1_times)
+axes[0, 0].set_ylabel('Execution Time (seconds)')
+axes[0, 0].set_title('Query 1 Execution Time')
+
+axes[0, 1].bar(databases, query1_cpu)
+axes[0, 1].set_ylabel('CPU Usage (%)')
+axes[0, 1].set_title('Query 1 CPU Usage')
+
+axes[0, 2].bar(databases, query1_memory)
+axes[0, 2].set_ylabel('Memory Usage (bytes)')
+axes[0, 2].set_title('Query 1 Memory Usage')
+
+# Plot Query 2 performance
+axes[1, 0].bar(databases, query2_times)
+axes[1, 0].set_ylabel('Execution Time (seconds)')
+axes[1, 0].set_title('Query 2 Execution Time')
+
+axes[1, 1].bar(databases, query2_cpu)
+axes[1, 1].set_ylabel('CPU Usage (%)')
+axes[1, 1].set_title('Query 2 CPU Usage')
+
+axes[1, 2].bar(databases, query2_memory)
+axes[1, 2].set_ylabel('Memory Usage (bytes)')
+axes[1, 2].set_title('Query 2 Memory Usage')
+
+# Plot Query 3 performance
+axes[2, 0].bar(databases, query3_times)
+axes[2, 0].set_ylabel('Execution Time (seconds)')
+axes[2, 0].set_title('Query 3 Execution Time')
+
+axes[2, 1].bar(databases, query3_cpu)
+axes[2, 1].set_ylabel('CPU Usage (%)')
+axes[2, 1].set_title('Query 3 CPU Usage')
+
+axes[2, 2].bar(databases, query3_memory)
+axes[2, 2].set_ylabel('Memory Usage (bytes)')
+axes[2, 2].set_title('Query 3 Memory Usage')
+
+# Plot Query 4 performance
+axes[3, 0].bar(databases, query4_times)
+axes[3, 0].set_ylabel('Execution Time (seconds)')
+axes[3, 0].set_title('Query 4 Execution Time')
+
+axes[3, 1].bar(databases, query4_cpu)
+axes[3, 1].set_ylabel('CPU Usage (%)')
+axes[3, 1].set_title('Query 4 CPU Usage')
+
+axes[3, 2].bar(databases, query4_memory)
+axes[3, 2].set_ylabel('Memory Usage (bytes)')
+axes[3, 2].set_title('Query 4 Memory Usage')
+
+# Add a legend to each subplot
+for i in range(4):
+    for j in range(3):
+        axes[i, j].legend(databases)
 
 # Adjust spacing between subplots
 plt.tight_layout()
 
-# Save the bar plot figure
-plt.savefig('query_performance_bar_plot.png')
+# Save the figure as a PNG file
+plt.savefig('query_performance_comparison.png')
 
-# Create a figure with subplots for line plots
-fig_line, (ax1_line, ax2_line, ax3_line) = plt.subplots(1, 3, figsize=(15, 5))
-
-# Plot execution time (line plot)
-ax1_line.plot(databases, query_times, marker='o')
-ax1_line.set_ylabel('Execution Time (seconds)')
-ax1_line.set_title('Query Execution Time (Line Plot)')
-
-# Plot CPU usage (line plot)
-ax2_line.plot(databases, query_cpu, marker='o')
-ax2_line.set_ylabel('CPU Usage (%)')
-ax2_line.set_title('Query CPU Usage (Line Plot)')
-
-# Plot memory usage (line plot)
-ax3_line.plot(databases, query_memory, marker='o')
-ax3_line.set_ylabel('Memory Usage (bytes)')
-ax3_line.set_title('Query Memory Usage (Line Plot)')
-
-# Adjust spacing between subplots
-plt.tight_layout()
-
-# Save the line plot figure
-plt.savefig('query_performance_line_plot.png')
-
-# Display the plots
+# Display the plot
 plt.show()
+# %%
