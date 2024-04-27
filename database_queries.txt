@@ -1,0 +1,70 @@
+############################################################################################################################################################# ------------------------------------------------------------- STEP 0: DATA POPULATION -----------------------------------------------------------------------
+#############################################################################################################################################################
+
+-- POPULATING DATA INTO MySQL
+ 
+CREATE DATABASE IF NOT EXISTS final_road_network
+
+INSERT INTO roads (fromCity, toCity, distance) VALUES (<VALUES FROM 'final_road_network.csv'>)"
+
+-- OUTPUT 
+
+Created 'final_road_network' database
+
+250,000 rows Data populated into MySQL successfully!
+
+
+
+-- POPULATING DATA INTO MONGODB
+
+mongoimport --type csv -d final_road_network -c roads --headerline --file ./final_road_network.csv
+
+-- OUTPUT
+
+250,000 documents Data populated into MongoDB successfully!
+
+
+
+-- POPULATING DATA INTO NEO4J
+
+:auto USING PERIODIC COMMIT 10000
+LOAD CSV WITH HEADERS FROM 'file:///final_road_network.csv' AS row
+MERGE (from:City {name: row.FromCity})
+MERGE (to:City {name: row.ToCity})
+MERGE (from)-[:ROAD {distance: toInteger(row.Distance)}]->(to);
+
+-- OUTPUT
+
+Data populated with 500 nodes and 250,000 relationships into Neo4j successfully!
+
+
+############################################################################################################################################################ ------------------------------------------------------------- STEP 1: Queries ------------------------------------------------------------------------------
+############################################################################################################################################################
+
+
+-- QUERY 1: To get roads from Richmond to Atlanta with distance > 500
+
+-- MySQL QUERY
+
+SELECT fromCity, toCity, distance
+FROM roads
+WHERE fromCity = 'Richmond' AND toCity = 'Atlanta' AND distance >= 500;
+
+-- MySQL OUTPUT
+
+fromCity	toCity		distance
+Richmond	Atlanta		916
+
+
+-- MongoDB QUERY
+
+USE db final_road_network
+db.roads.find({
+    "fromCity": "Richmond",
+    "toCity": "Atlanta",
+    "distance": {"$gte": 500}
+}, {"_id": 0})
+
+-- MongoDB OUTPUT
+
+

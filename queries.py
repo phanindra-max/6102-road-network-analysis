@@ -13,6 +13,7 @@ connection = mysql.connector.connect(
 print("Connected to MySQL successfully!")
 cursor = connection.cursor()
 
+#%%
 # Query 1: To get roads from Richmond to Atlanta with distance > 500
 query = """
 SELECT fromCity, toCity, distance
@@ -139,6 +140,7 @@ print("Connected to MongoDB successfully!")
 db = client['final_road_network']
 collection = db['roads']
 
+#%%
 # Query 1: To get roads from Richmond to Atlanta with distance > 500
 query = {
     "fromCity": "Richmond",
@@ -337,6 +339,7 @@ driver = GraphDatabase.driver(uri, auth=("neo4j", "12345678"))
 driver.verify_connectivity()
 print("Connected to Neo4j successfully!")
 
+#%%
 # Query 1: To get roads from Richmond to Atlanta with distance > 500
 def find_routes(tx, from_city, to_city, min_distance):
     query = """

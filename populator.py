@@ -9,10 +9,28 @@ from tqdm import tqdm
 #%%
 connection = mysql.connector.connect(
     host="localhost",
+    user="root"
+)
+print("\n\nConnected to MySQL successfully!")
+
+connection.autocommit = False # for improving performance
+cursor = connection.cursor()
+
+# CREATE DATABASE IF NOT EXISTS final_road_network
+create_database_query = "CREATE DATABASE IF NOT EXISTS final_road_network"
+cursor.execute(create_database_query)
+print("Created 'final_road_network' database")
+
+cursor.close()
+connection.close()
+
+#%%
+connection = mysql.connector.connect(
+    host="localhost",
     user="root",
     database = "final_road_network",
 )
-print("Connected to MySQL successfully!")
+print("\n\nConnected to MySQL successfully!")
 
 connection.autocommit = False # for improving performance
 cursor = connection.cursor()
@@ -56,7 +74,7 @@ cursor.close()
 #%%
 # Connect to MongoDB
 client = MongoClient('mongodb://localhost:27017/')
-print("Connected to MongoDB successfully!")
+print("\n\nConnected to MongoDB successfully!")
 db = client['final_road_network']
 collection = db['roads']
 
@@ -81,7 +99,7 @@ print("250,000 documents Data populated into MongoDB successfully!")
 uri = "neo4j://localhost:7687"
 driver = GraphDatabase.driver(uri, auth=("neo4j", "12345678"))
 driver.verify_connectivity()
-print("Connected to Neo4j successfully!")
+print("\n\nConnected to Neo4j successfully!")
 
 def populate_neo4j(tx, roads):
     tx.run("UNWIND $roads AS road "
@@ -113,6 +131,6 @@ with open('final_road_network.csv', 'r') as file:
             session.execute_write(populate_neo4j, roads)
 
 driver.close()
-print("Data populated into Neo4j successfully!")
+print("Data populated with 500 nodes and 250,000 relationships into Neo4j successfully!")
 
 # %%
