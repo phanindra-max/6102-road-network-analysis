@@ -1,4 +1,4 @@
-# Analysis of SQL, NoSQL, and Graph Database performances
+# Analysis of SQL, NoSQL, and Graph Databases
 #### 6102 Group assignment
 
 ## INSTRUCTIONS
