@@ -1,4 +1,5 @@
-# 6102 Group assignment
+# Analysis of SQL, NoSQL, and Graph Database performances
+#### 6102 Group assignment
 
 ## INSTRUCTIONS
       Comparative Road Network Analysis in MongoDB and Neo4j
