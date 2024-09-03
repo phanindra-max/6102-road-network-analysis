@@ -1,10 +1,5 @@
-# Analysis of SQL, NoSQL, and Graph Databases
+# Comparative Road Network Analysis in MongoDB and Neo4jnalysis of SQL, NoSQL, and Graph Databases
 #### 6102 Group assignment
-
-## INSTRUCTIONS
-      Comparative Road Network Analysis in MongoDB and Neo4j
-
-
 
 Objective
 
