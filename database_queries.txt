@@ -5,7 +5,7 @@
  
 CREATE DATABASE IF NOT EXISTS final_road_network
 
-INSERT INTO roads (fromCity, toCity, distance) VALUES (<VALUES FROM 'final_road_network.csv'>)"
+INSERT INTO roads (fromCity, toCity, distance) VALUES (<VALUES FROM 'data/final_road_network.csv'>)"
 
 -- OUTPUT 
 
@@ -17,7 +17,7 @@ Created 'final_road_network' database
 
 -- POPULATING DATA INTO MONGODB
 
-mongoimport --type csv -d final_road_network -c roads --headerline --file ./final_road_network.csv
+mongoimport --type csv -d final_road_network -c roads --headerline --file ./data/final_road_network.csv
 
 -- OUTPUT
 
@@ -28,7 +28,7 @@ mongoimport --type csv -d final_road_network -c roads --headerline --file ./fina
 -- POPULATING DATA INTO NEO4J
 
 :auto USING PERIODIC COMMIT 10000
-LOAD CSV WITH HEADERS FROM 'file:///final_road_network.csv' AS row
+LOAD CSV WITH HEADERS FROM 'file:///data/final_road_network.csv' AS row
 MERGE (from:City {name: row.FromCity})
 MERGE (to:City {name: row.ToCity})
 MERGE (from)-[:ROAD {distance: toInteger(row.Distance)}]->(to);

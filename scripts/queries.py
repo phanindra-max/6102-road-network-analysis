@@ -547,7 +547,7 @@ for i in range(4):
 plt.tight_layout()
 
 # Save the figure as a PNG file
-plt.savefig('query_performance_comparison.png')
+plt.savefig('outputs/Performace Visualizations/query_performance_comparison.png')
 
 # Display the plot
 plt.show()
@@ -592,7 +592,7 @@ ax_time.set_title('Execution Time Comparison')
 ax_time.legend()
 
 plt.tight_layout()
-plt.savefig('execution_time_comparison_line.png')
+plt.savefig('outputs/Performace Visualizations/execution_time_comparison_line.png')
 
 # Create a figure for CPU usage comparison
 fig_cpu, ax_cpu = plt.subplots(figsize=(10, 6))
@@ -607,7 +607,7 @@ ax_cpu.set_title('CPU Usage Comparison')
 ax_cpu.legend()
 
 plt.tight_layout()
-plt.savefig('cpu_usage_comparison_line.png')
+plt.savefig('outputs/Performace Visualizations/cpu_usage_comparison_line.png')
 
 # Create a figure for memory usage comparison
 fig_memory, ax_memory = plt.subplots(figsize=(10, 6))
@@ -622,6 +622,6 @@ ax_memory.set_title('Memory Usage Comparison')
 ax_memory.legend()
 
 plt.tight_layout()
-plt.savefig('memory_usage_comparison_line.png')
+plt.savefig('outputs/Performace Visualizations/memory_usage_comparison_line.png')
 
 plt.show()

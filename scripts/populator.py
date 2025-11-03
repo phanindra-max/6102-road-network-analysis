@@ -49,7 +49,7 @@ cursor.execute(create_table_query)
 print("Using 'roads' table in 'final_road_network' database")
 
 # Read data from CSV and insert into MySQL
-with open('final_road_network.csv', 'r') as file:
+with open('data/final_road_network.csv', 'r') as file:
     csv_reader = csv.reader(file)
     next(csv_reader) # skip header row
 
@@ -79,7 +79,7 @@ db = client['final_road_network']
 collection = db['roads']
 
 # Read data from CSV and insert into MongoDB
-with open('final_road_network.csv', 'r') as file:
+with open('data/final_road_network.csv', 'r') as file:
     reader = csv.DictReader(file)
     roads = []
     for row in reader:
@@ -112,7 +112,7 @@ def populate_neo4j(tx, roads):
 batch_size = 10000
 roads = []
 
-with open('final_road_network.csv', 'r') as file:
+with open('data/final_road_network.csv', 'r') as file:
     reader = csv.DictReader(file)
     with driver.session() as session:
         for row in tqdm(reader):

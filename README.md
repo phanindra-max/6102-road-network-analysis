@@ -2,7 +2,7 @@
 
 A comprehensive performance comparison of MySQL, MongoDB, and Neo4j for large-scale graph and network data operations. This project evaluates three different database paradigms—relational, document-oriented, and graph—using a synthetic road network dataset with 500 cities and 250,000 connections.
 
-![Performance Comparison](Output%20Images/Performace%20Visualizations/execution_time_comparison_line.png)
+![Performance Comparison](outputs/Performace%20Visualizations/execution_time_comparison_line.png)
 
 ---
 
@@ -11,17 +11,15 @@ A comprehensive performance comparison of MySQL, MongoDB, and Neo4j for large-sc
 - [Overview](#overview)
 - [Key Features](#key-features)
 - [Results Summary](#results-summary)
-- [Prerequisites](#prerequisites)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Project Structure](#project-structure)
+- [Quick Start](#quick-start)
 - [Query Descriptions](#query-descriptions)
 - [Performance Metrics](#performance-metrics)
-- [Technologies Used](#technologies-used)
 - [Key Findings](#key-findings)
+- [Technologies Used](#technologies-used)
+- [Project Structure](#project-structure)
 - [Contributing](#contributing)
-- [License](#license)
 - [Authors](#authors)
+- [License](#license)
 
 ---
 
@@ -64,133 +62,23 @@ The benchmark focuses on common network analytics operations: filtering, aggrega
 
 ---
 
-## 🔧 Prerequisites
+## 🚀 Quick Start
 
-### Required Software:
-- Python 3.8+
-- MySQL Server 8.0+
-- MongoDB 5.0+
-- Neo4j 5.0+ (Community or Enterprise)
-
-### Python Dependencies:
 ```bash
+# 1. Install dependencies
 pip install -r requirements.txt
+
+# 2. Generate dataset
+python scripts/generator.py
+
+# 3. Populate databases
+python scripts/populator.py
+
+# 4. Run benchmarks
+python scripts/queries.py
 ```
 
-Required packages:
-- `mysql-connector-python`
-- `pymongo`
-- `neo4j`
-- `faker`
-- `psutil`
-- `matplotlib`
-- `tqdm`
-
----
-
-## 📥 Installation
-
-### 1. Clone the Repository
-```bash
-git clone https://github.com/yourusername/database-benchmark-network-analytics.git
-cd database-benchmark-network-analytics
-```
-
-### 2. Install Python Dependencies
-```bash
-pip install mysql-connector-python pymongo neo4j faker psutil matplotlib tqdm
-```
-
-Or use requirements file:
-```bash
-pip install -r requirements.txt
-```
-
-### 3. Configure Database Connections
-
-**MySQL:**
-```python
-# Default: localhost, user='root', no password
-# Modify in populator.py and queries.py if needed
-```
-
-**MongoDB:**
-```python
-# Default: mongodb://localhost:27017/
-# Modify connection string in populator.py and queries.py if needed
-```
-
-**Neo4j:**
-```python
-# Default: neo4j://localhost:7687
-# Username: neo4j
-# Password: 12345678 (change in populator.py and queries.py)
-```
-
-### 4. Start Database Services
-
-**MySQL:**
-```bash
-# Linux/Mac
-sudo service mysql start
-
-# Windows
-net start MySQL
-```
-
-**MongoDB:**
-```bash
-# Linux/Mac
-sudo service mongod start
-
-# Windows
-net start MongoDB
-```
-
-**Neo4j:**
-```bash
-# Using Neo4j Desktop (recommended) or:
-neo4j start
-```
-
----
-
-## 🚀 Usage
-
-### Step 1: Generate Dataset
-```bash
-python generator.py
-```
-**Output**: `final_road_network.csv` (250,000 rows)
-
-### Step 2: Populate Databases
-```bash
-python populator.py
-```
-**Duration**: ~5-10 minutes depending on hardware
-
-This script will:
-- Create MySQL database and table
-- Populate MongoDB collection
-- Build Neo4j graph (nodes + relationships)
-
-### Step 3: Run Benchmarks
-```bash
-python queries.py
-```
-**Duration**: ~3-5 minutes
-
-This will:
-- Execute 12 queries (4 per database)
-- Collect performance metrics
-- Generate visualization charts
-- Save results to `Output Images/` directory
-
-### View Results
-Charts are saved in:
-- `Output Images/Performace Visualizations/`
-- `query_performance_comparison.png`
-- Individual metric line charts
+**📖 For detailed installation instructions, database configuration, and troubleshooting, see [INSTALLATION.md](INSTALLATION.md)**
 
 ---
 
@@ -198,27 +86,29 @@ Charts are saved in:
 
 ```
 .
-├── generator.py                    # Synthetic data generation
-├── populator.py                    # Multi-database population script
-├── queries.py                      # Unified benchmark queries
-├── final_road_network.csv          # Generated dataset (250K rows)
-├── requirements.txt                # Python dependencies
-├── README.md                       # This file
+├── data/
+│   └── final_road_network.csv      # Generated dataset (500 cities, 250K roads)
 │
-├── Output Images/
-│   ├── Code Outputs/
-│   │   ├── Unified Queries/        # Query execution screenshots
-│   │   └── Data Generation and Population.png
-│   │
-│   └── Performace Visualizations/  # Performance charts
-│       ├── query_performance_comparison.png
-│       ├── execution_time_comparison_line.png
-│       ├── cpu_usage_comparison_line.png
-│       └── memory_usage_comparison_line.png
+├── docs/
+│   ├── 6102 Group project paper-- jup.docx
+│   ├── 6102 Queries Ideas.docx
+│   └── GROUP 4 PROJECT PROPOSAL.docx
 │
-└── Documentation/
-    ├── 6102 Queries Ideas.docx
-    └── GROUP 4 PROJECT PROPOSAL.docx
+├── outputs/
+│   ├── Code Outputs/               # Query execution screenshots
+│   └── Performace Visualizations/  # Performance comparison charts
+│
+├── scripts/
+│   ├── generator.py                # Synthetic data generation
+│   ├── populator.py                # Multi-database population script
+│   ├── queries.py                  # Unified benchmark queries with metrics
+│   └── hybrid_challenges.py        # Additional database challenge queries
+│
+├── database_queries.txt            # Query reference documentation
+├── INSTALLATION.md                 # Detailed setup guide
+├── LICENSE                         # MIT License
+├── README.md                       # Project overview and findings
+└── requirements.txt                # Python dependencies
 ```
 
 ---
@@ -294,25 +184,6 @@ Charts are saved in:
 
 ---
 
-## 🛠️ Technologies Used
-
-### Databases
-- **MySQL 8.0** - Relational database with InnoDB engine
-- **MongoDB 5.0** - Document-oriented NoSQL database
-- **Neo4j 5.0** - Native graph database
-
-### Programming & Libraries
-- **Python 3.8+** - Primary language
-- **Faker** - Synthetic data generation
-- **psutil** - System resource monitoring
-- **matplotlib** - Data visualization
-- **tqdm** - Progress bars
-- **mysql-connector-python** - MySQL driver
-- **pymongo** - MongoDB driver
-- **neo4j-python-driver** - Neo4j Bolt driver
-
----
-
 ## 🔑 Key Findings
 
 ### 1. **Query Type Matters More Than Database Type**
@@ -330,93 +201,56 @@ Modern SQL databases can handle graph queries competently, making them viable fo
 ### 5. **Aggregation Pipeline Optimization**
 MongoDB's aggregation framework outperforms traditional SQL GROUP BY operations.
 
+### 6. **Memory vs. Speed Trade-offs**
+MySQL uses significantly more memory for complex traversals (462 MB) but delivers faster results than MongoDB's memory-efficient approach.
+
+### 7. **Specialized Tools for Specialized Jobs**
+The 19.2x performance gain of Neo4j for shortest path algorithms justifies specialized databases for graph-heavy workloads.
+
+---
+
+## 🛠️ Technologies Used
+
+**Databases:**
+- **MySQL 8.0** - Relational database with InnoDB engine and recursive CTEs
+- **MongoDB 5.0** - Document-oriented NoSQL with aggregation pipeline
+- **Neo4j 5.0** - Native graph database with Cypher query language
+
+**Tech Stack:**
+- **Python 3.8+** with drivers for MySQL, MongoDB, and Neo4j
+- **Faker** - Realistic synthetic data generation
+- **psutil** - Real-time system resource monitoring
+- **matplotlib** - Performance visualization charts
+
 ---
 
 ## 🤝 Contributing
 
-Contributions are welcome! Here's how you can help:
+Contributions welcome! Potential improvements:
+- Additional query types (3+ hop traversals, weighted shortest paths)
+- More databases (PostgreSQL, ArangoDB, Redis Graph)
+- Advanced optimizations (indexing strategies, query tuning)
+- Extended metrics (network I/O, disk usage)
 
-### Reporting Issues
-- Use GitHub Issues to report bugs
-- Include database versions and error messages
-- Provide steps to reproduce
-
-### Feature Requests
-- Query additions (3+ hop traversals, weighted paths)
-- Additional databases (PostgreSQL, Redis, ArangoDB)
-- Performance optimizations
-- Visualization improvements
-
-### Pull Requests
-1. Fork the repository
-2. Create feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit changes (`git commit -m 'Add AmazingFeature'`)
-4. Push to branch (`git push origin feature/AmazingFeature`)
-5. Open Pull Request
-
----
-
-## 📄 License
-
-This project is licensed under the MIT License - see below for details:
-
-```
-MIT License
-
-Copyright (c) 2025 [Your Name/Organization]
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-```
+Please open an issue or submit a pull request.
 
 ---
 
 ## 👥 Authors
 
-**Group 4 - Section 10**
-- [Your Name](https://github.com/yourusername)
-- [Team Member 2]
-- [Team Member 3]
-- [Team Member 4]
-
-**Course**: Data Warehousing (6102)  
-**Institution**: The George Washington University  
-**Year**: 2025
+**Group 4 - Section 10**  
+Data Warehousing (6102)  
+The George Washington University, 2025
 
 ---
 
-## 📧 Contact
+## 📄 License
 
-For questions or collaboration:
-- GitHub Issues: [Project Issues](https://github.com/yourusername/database-benchmark-network-analytics/issues)
-- Email: your.email@university.edu
+This project is licensed under the MIT License - see [LICENSE](LICENSE) file for details.
 
 ---
 
-## 🙏 Acknowledgments
-
-- Faker library for realistic test data generation
-- Database communities (MySQL, MongoDB, Neo4j) for excellent documentation
-- The George Washington University Data Warehousing course
-
----
-
-## 📚 Further Reading
+## 📚 References
 
 - [MySQL Recursive CTEs Documentation](https://dev.mysql.com/doc/refman/8.0/en/with.html)
 - [MongoDB Aggregation Pipeline](https://docs.mongodb.com/manual/aggregation/)

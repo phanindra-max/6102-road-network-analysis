@@ -35,9 +35,9 @@ for i in range(num_roads):
     roads.append((from_city, to_city, distance))
 
 # Write dataset to CSV file
-with open('final_road_network.csv', 'w', newline='') as file:
+with open('data/final_road_network.csv', 'w', newline='') as file:
     writer = csv.writer(file)
     writer.writerow(['FromCity', 'ToCity', 'Distance'])
     writer.writerows(roads)
 
-print(f"\n\nGenerated {len(roads)} roads between {num_cities} cities (including specific cities) and saved to 'final_road_network.csv'")
+print(f"\n\nGenerated {len(roads)} roads between {num_cities} cities (including specific cities) and saved to 'data/final_road_network.csv'")
