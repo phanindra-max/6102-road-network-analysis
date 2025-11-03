@@ -1,0 +1,17 @@
+# Database Connectors
+mysql-connector-python>=8.0.0
+pymongo>=4.0.0
+neo4j>=5.0.0
+
+# Data Generation
+Faker>=18.0.0
+
+# Performance Monitoring
+psutil>=5.9.0
+
+# Visualization
+matplotlib>=3.5.0
+
+# Utilities
+tqdm>=4.65.0
+

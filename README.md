@@ -1,201 +1,429 @@
-# Comparative Road Network Analysis in MongoDB and Neo4jnalysis of SQL, NoSQL, and Graph Databases
-#### 6102 Group assignment
+# Benchmarking Database Architectures for Network Analytics
 
-Objective
+A comprehensive performance comparison of MySQL, MongoDB, and Neo4j for large-scale graph and network data operations. This project evaluates three different database paradigms—relational, document-oriented, and graph—using a synthetic road network dataset with 500 cities and 250,000 connections.
 
-This assignment aims to achieve an in-depth understanding of MongoDB and Neo4j by performing a series of queries on a road network dataset.
-Compare how these databases handle different types of queries, focusing on conditional logic, aggregation, and basic data retrieval.
-The second part of this assignment t is about finding paths using the Graph Data Science (GDS) library in Neo4j
-This assignment will give you practical insights into the performance characteristics of MongoDB and Neo4j, as well as an understanding of graph algorithm execution in Neo4j.
-Below are instructions for each part.
+![Performance Comparison](Output%20Images/Performace%20Visualizations/execution_time_comparison_line.png)
 
-Dataset Overview
+---
 
-Your dataset represents connections between cities, each with a specified distance. The data is structured with three columns in a csv file: FromCity, ToCity, and Distance.
-Example:
-fromCity	toCity	Distance
-Atlanta	Richmond	800
-Paris	Strasbourg 	500
-Breslau 	Prague	300
-Frankfurt	Cologne	190
-Salzburg	Berlin	740
+## 📋 Table of Contents
 
+- [Overview](#overview)
+- [Key Features](#key-features)
+- [Results Summary](#results-summary)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Project Structure](#project-structure)
+- [Query Descriptions](#query-descriptions)
+- [Performance Metrics](#performance-metrics)
+- [Technologies Used](#technologies-used)
+- [Key Findings](#key-findings)
+- [Contributing](#contributing)
+- [License](#license)
+- [Authors](#authors)
 
-##############
-Generating the Dataset for both parts 
+---
 
-You can generate a dataset for this assignment using a simple Python generator. Make sure your dataset adheres to the following criteria:
-The dataset should represent a network of roads between cities with specified distances.
-Ensure that no two entries (roads) have the same pair of cities in columns 1 (FromCity) and 2 (ToCity) in your CSV file.
-Make sure to have at least 100k rows or more. Once to write the simple generator, then you can generate whatever number of rows you want.
-The larger the dataset, the more accurate the performance measurement results. I recommend having more than 100k but that's the least amount of rows/data.
-Tip: You can use the Faker module in Python to generate fake data easily.
-You can use any dataset you can find in the web. 
-Make sure the data generation makes sense and each node has multiple incoming and outgoing paths. 
-###############
+## 🎯 Overview
 
+This project implements a rigorous benchmarking framework to compare database performance across different architectural paradigms. Using identical datasets and semantically equivalent queries, we measure:
 
+- **Execution Time** - Query response latency
+- **CPU Usage** - Processor utilization during query execution  
+- **Memory Consumption** - RAM usage patterns
 
-Part 1: Basic Querying and Data Analysis
+The benchmark focuses on common network analytics operations: filtering, aggregation, multi-hop traversal, and shortest path algorithms.
 
-Tasks:
+---
 
-List Roads from/to 'Atlanta' with Distances and Destinations: Both MongoDB and Neo4j can easily manage this type of query, which involves basic filtering and data retrieval.
-Find Roads Longer than 150 km, with Details: Again, both databases can execute this query. It involves a simple numerical comparison and data projection.
-Total Road Length Connected to 'Frankfurt': This task is straightforward in Neo4j and a bit more challenging in MongoDB as it involves using the aggregation to sum distances.
-Determine Shortest and Longest Road from 'Amman': Both databases can achieve this task. In MongoDB, it might require using sort and limit operations, while in Neo4j, it involves ordering and limiting the results within Cypher queries.
+## ✨ Key Features
 
-Make sure to include the cities mentioned in the tasks in your dataset.
+- **Automated Data Generation**: Synthetic road network with 500 cities and 250,000 directed edges
+- **Multi-Database Population**: Batch insertion optimized for each database type
+- **Unified Query Suite**: 4 equivalent queries implemented across all platforms
+- **Real-Time Metrics**: CPU, memory, and execution time monitoring using `psutil`
+- **Comprehensive Visualizations**: 15+ comparative performance charts
+- **Production-Ready Code**: Error handling, batch processing, and connection management
 
-This assignment aims to enhance your understanding of querying and data analysis in database systems, focusing on MongoDB and Neo4j.
-You will be working with road network data, performing tasks that require different levels of querying capabilities.
-By the end of this assignment, you should be proficient in executing and comparing diverse types of queries in both MongoDB and Neo4j.
+---
 
-Deliverables:
+## 📊 Results Summary
 
-Code.
-Provide the actual code or scripts written for MongoDB and Neo4j for each of the tasks.  
-Provide the code written to generate the dataset to test it.
-document the code. 
-Performance Metrics:
-Record and include the performance metrics for each query in both MongoDB and Neo4j. This could involve noting the execution time for each query and any relevant performance-related observations. See the code example below on how to use the time module to simply measure the time for executions. 
-Results Documentation:
-Present the results of each query in a structured format, such as text outputs, tables, or screenshots. This should clearly show the data retrieved or calculated by each query.
-Visualization of Results:
-Plot the results or performance metrics for a visual comparison between MongoDB and Neo4j on each task. You can use matplotlib library, which is designed for such scenarios.
-Analysis and Observations:
-A brief analysis of the results, focusing on the comparison between the performance and ease of querying in MongoDB versus Neo4j. Highlight any notable differences, challenges, or insights observed during the execution of the tasks.
+| Query Type | Best Performer | Performance Gain |
+|------------|----------------|------------------|
+| **Simple Filtering** | MySQL | 8.6x faster than Neo4j |
+| **Aggregations** | MongoDB | 2.6x faster than Neo4j |
+| **Multi-Hop Traversal** | MySQL | 5.4x faster than MongoDB |
+| **Shortest Path** | Neo4j | **19.2x faster than MongoDB** |
 
--------------------------------------------------------------------
+### Quick Takeaways:
+- ✅ **MySQL**: Best all-rounder with consistent performance
+- ✅ **MongoDB**: Dominant for aggregations, poor for graph queries
+- ✅ **Neo4j**: Specialized for pathfinding and deep graph traversals
 
-Part 2: Graph Algorithm in Neo4j' Graph Data Science Library
+---
 
-Tasks:
+## 🔧 Prerequisites
 
+### Required Software:
+- Python 3.8+
+- MySQL Server 8.0+
+- MongoDB 5.0+
+- Neo4j 5.0+ (Community or Enterprise)
 
-1. Depth First Search (DFS)
-Task 1: DFS from 'Atlanta'
-Objective: Explore Atlanta's network using DFS and record the path sequence.
-Expected Output: A list of cities visited in the DFS order, starting from Atlanta.
-Task 2: DFS from 'London'
-Objective: Perform DFS starting from London, noting the traversal sequence.
-Expected Output: A sequential list of cities visited in the DFS order from London.
+### Python Dependencies:
+```bash
+pip install -r requirements.txt
+```
 
-2.  First Search (BFS)
-Task 3: BFS from 'Atlanta'
-Objective: Implement BFS from Atlanta, documenting the city sequence reached.
-Expected Output: A list of cities showing the expansion pattern from Atlanta using BFS.
-Task 4: BFS from 'London'
-Objective: Execute BFS starting from London and record the order of cities explored.
-Expected Output: A list of cities visited in the BFS sequence from London.
-3. Visualization and Timing Analysis
-Task 5.1: DFS Timing and Visualization
-Objective: Compare DFS execution times from Atlanta and London; visualize the paths (you can you matplotlib library in Python, which is easy to use).
-Expected Output: A plot showing DFS paths and timings from both cities.
-Task 5.2: BFS Timing and Visualization
-Objective: Compare BFS execution times from Atlanta and London; visualize the paths.
-Expected Output: A plot illustrating BFS paths and timings from both cities.
-Task 5.3: Direct DFS and BFS Comparison
-Objective: Directly compare DFS and BFS for each city, in terms of paths and timings.
-Expected Output: Comparative plots for Atlanta and London, highlighting differences between DFS and BFS.
-NOTE: Make sure to include the cities mentioned in your dataset. 
-Also, make sure that each node has many paths ranging from small to long ones. Make sure that you have many paths for each city for good testing (not like 5 or 10 paths) considering the large dataset.
-Make sure that the generated data makes since (not 10000 miles distance between Atlanta and Baltimore).
+Required packages:
+- `mysql-connector-python`
+- `pymongo`
+- `neo4j`
+- `faker`
+- `psutil`
+- `matplotlib`
+- `tqdm`
 
-Part 2 of this assignment delves into using graph algorithms, specifically DFS and BFS algorithms for traversals and path finding algorithms, within Neo4j's Graph Data Science Library. It aims to provide hands-on experience with graph-based analysis and visualization, enhancing understanding of graph algorithms in practical scenarios.
-Recording and Analyzing Execution Times
+---
 
-For Tasks 1 to 4, each involving DFS and BFS from both Atlanta and London, you will measure how long it takes for each search to complete. Here's how to approach this:
-Before Starting the Search:
-Record the current time. In Python, you can use time.time() from the time module to get the current time.
-Perform the Search:
-Execute the DFS or BFS algorithm. This is where your code explores the city network.
-After Completing the Search:
-Record the time again. The difference between this time and the start time is the execution time for the search.
-Analyze the Times:
-Compare the execution times for DFS and BFS. This will give you an idea of which algorithm is faster under different conditions.
+## 📥 Installation
 
-Below is a demo Python snippet that shows how to use time in Python by importing the time module.
+### 1. Clone the Repository
+```bash
+git clone https://github.com/yourusername/database-benchmark-network-analytics.git
+cd database-benchmark-network-analytics
+```
 
-import time
+### 2. Install Python Dependencies
+```bash
+pip install mysql-connector-python pymongo neo4j faker psutil matplotlib tqdm
+```
 
-# Start the timer
-start_time = time.time()
+Or use requirements file:
+```bash
+pip install -r requirements.txt
+```
 
-# Perform the search (DFS or BFS)
-# ...
+### 3. Configure Database Connections
 
-# Stop the timer
-end_time = time.time()
+**MySQL:**
+```python
+# Default: localhost, user='root', no password
+# Modify in populator.py and queries.py if needed
+```
 
-# Calculate execution time
-execution_time = end_time - start_time
-print(f"something like the task for ... took... {execution_time} seconds.")
+**MongoDB:**
+```python
+# Default: mongodb://localhost:27017/
+# Modify connection string in populator.py and queries.py if needed
+```
 
-Deliverables:
+**Neo4j:**
+```python
+# Default: neo4j://localhost:7687
+# Username: neo4j
+# Password: 12345678 (change in populator.py and queries.py)
+```
 
-Python Script:
-A comprehensive single .py file with well-commented sections for DFS, BFS, timings, and visualizations.
-Clear distinction of each task.
-A well-documented code using comments #
-Execution Timings:
-Recorded and analyzed execution times for each DFS and BFS query.
-Visualization Plots:
-Comparative plots for DFS and BFS paths from Atlanta and London.
-Visualization of timing differences for DFS and BFS searches.
-Report:
-A summary of findings, analyzing the results and execution efficiency of DFS and BFS.
-Insights on the characteristics of each algorithm based on the plots and timings.
-Please attach screenshots for each plot and name it according to the task.
-Also, include the .py script that generates that dataset to test it.
-Please submit your files in a zip code and name it as DW_Section_10_GROUP(#)_PROJECT.zip
-One student representing the group can upload the work. 
+### 4. Start Database Services
 
+**MySQL:**
+```bash
+# Linux/Mac
+sudo service mysql start
 
-NOTE:
-The DFS and BFS algorithms in the Neo4j GDS library are pre-implemented. You just need to copy the algorithms mentioned and just set the parameters according to your dataset and record the execution times.
-Please look at:
-Pathfinding algorithms in Neo4j, which includes BFS and DFS: 
- 
-Path finding - Neo4j Graph Data Science
-This chapter provides explanations and examples for each of the path finding algorithms in the Neo4j Graph Data Science library.
-Neo4j Graph Data Platform
+# Windows
+net start MySQL
+```
 
-DFS:
-https://neo4j.com/docs/graph-data-science/current/algorithms/dfs/
-BFS:
-https://neo4j.com/docs/graph-data-science/current/algorithms/bfs/
+**MongoDB:**
+```bash
+# Linux/Mac
+sudo service mongod start
 
+# Windows
+net start MongoDB
+```
 
----------------------------
+**Neo4j:**
+```bash
+# Using Neo4j Desktop (recommended) or:
+neo4j start
+```
 
-Tips:
+---
 
-Implementing DFS and BFS:
-For each city (Atlanta and London), write the code or queries for performing DFS and BFS.
-Ensure that your code accurately follows the DFS and BFS algorithms.
-Recording Execution Time:
-Use timing functions to record how long each search takes to complete.
-This will involve capturing the start time before the search begins and the end time after it concludes.
-Visualization:
-Use a plotting library to create visual representations of the search paths.
-Include the execution times in your plots for a clear comparison.
-Analysis:
-Write a small report in a text file for the analysis section, discuss the differences in execution times and what they might indicate about the efficiency of each algorithm in different scenarios.
+## 🚀 Usage
 
+### Step 1: Generate Dataset
+```bash
+python generator.py
+```
+**Output**: `final_road_network.csv` (250,000 rows)
 
-Also, you're free to do other pathfinding algorithms from the one listed on the Neo4j website. 
-Note that this is a required assignment .
-It's separate from the 2 assignments and quizzes that I'll count the best three grades out of the four. 
+### Step 2: Populate Databases
+```bash
+python populator.py
+```
+**Duration**: ~5-10 minutes depending on hardware
 
---------------
+This script will:
+- Create MySQL database and table
+- Populate MongoDB collection
+- Build Neo4j graph (nodes + relationships)
 
-Learning Outcomes
-The goal of this assignment is to equip students with practical skills in querying and graph analysis using MongoDB and Neo4j, enhancing their understanding of database systems and pathfinding algorithms. Through this, students will develop their ability to analyze and visualize complex data, preparing them for real-world data handling and decision-making tasks.
+### Step 3: Run Benchmarks
+```bash
+python queries.py
+```
+**Duration**: ~3-5 minutes
 
-Submission date and time: 
-I'm giving you 30+ days to finish it. I understand you have other courses and tasks to do. 
-Thus, as mentioned in the syllabus, the due date will be on 04/23 at or before 11:50. 
+This will:
+- Execute 12 queries (4 per database)
+- Collect performance metrics
+- Generate visualization charts
+- Save results to `Output Images/` directory
 
+### View Results
+Charts are saved in:
+- `Output Images/Performace Visualizations/`
+- `query_performance_comparison.png`
+- Individual metric line charts
 
-All the Best-
+---
+
+## 📁 Project Structure
+
+```
+.
+├── generator.py                    # Synthetic data generation
+├── populator.py                    # Multi-database population script
+├── queries.py                      # Unified benchmark queries
+├── final_road_network.csv          # Generated dataset (250K rows)
+├── requirements.txt                # Python dependencies
+├── README.md                       # This file
+│
+├── Output Images/
+│   ├── Code Outputs/
+│   │   ├── Unified Queries/        # Query execution screenshots
+│   │   └── Data Generation and Population.png
+│   │
+│   └── Performace Visualizations/  # Performance charts
+│       ├── query_performance_comparison.png
+│       ├── execution_time_comparison_line.png
+│       ├── cpu_usage_comparison_line.png
+│       └── memory_usage_comparison_line.png
+│
+└── Documentation/
+    ├── 6102 Queries Ideas.docx
+    └── GROUP 4 PROJECT PROPOSAL.docx
+```
+
+---
+
+## 🔍 Query Descriptions
+
+### Query 1: Point-to-Point Filtering
+**Purpose**: Find roads from Richmond to Atlanta with distance ≥ 500 miles
+
+**Use Case**: Direct route lookup with conditions
+
+---
+
+### Query 2: Top-K Aggregation
+**Purpose**: Calculate top 5 city pairs by average distance
+
+**Use Case**: Statistical analysis of network connectivity
+
+---
+
+### Query 3: Multi-Hop Traversal
+**Purpose**: Find all cities reachable within 2 hops from Richmond
+
+**Use Case**: Neighborhood discovery, reachability analysis
+
+**Implementation**:
+- **MySQL**: Recursive CTE
+- **MongoDB**: `$lookup` aggregation pipeline
+- **Neo4j**: Variable-length pattern matching `[:ROAD*..2]`
+
+---
+
+### Query 4: Shortest Path Algorithm
+**Purpose**: Find shortest route from Richmond to Amman (max 2 hops)
+
+**Use Case**: Navigation, route optimization
+
+**Implementation**:
+- **MySQL**: Recursive CTE with path tracking
+- **MongoDB**: Custom BFS algorithm in Python
+- **Neo4j**: Native `shortestPath()` function
+
+---
+
+## 📈 Performance Metrics
+
+### Execution Time (seconds)
+
+| Query | MySQL | MongoDB | Neo4j | Winner |
+|-------|-------|---------|-------|--------|
+| Q1 | 0.25 | 0.60 | 2.15 | MySQL |
+| Q2 | 2.25 | 1.50 | 3.90 | MongoDB |
+| Q3 | 13.5 | 73.0 | 25.5 | MySQL |
+| Q4 | 11.5 | 48.0 | 2.5 | **Neo4j** |
+
+### CPU Usage (%)
+
+| Query | MySQL | MongoDB | Neo4j |
+|-------|-------|---------|-------|
+| Q1 | 10.5 | 0.8 | 0.8 |
+| Q2 | 0.5 | 10.0 | 5.5 |
+| Q3 | 11.5 | 11.7 | 9.3 |
+| Q4 | 10.8 | 10.5 | 8.1 |
+
+### Memory Usage (MB)
+
+| Query | MySQL | MongoDB | Neo4j |
+|-------|-------|---------|-------|
+| Q1 | 31 | 42 | 30 |
+| Q2 | 8 | 9 | 135 |
+| Q3 | 462 | 15 | 185 |
+| Q4 | 25 | 456 | 28 |
+
+---
+
+## 🛠️ Technologies Used
+
+### Databases
+- **MySQL 8.0** - Relational database with InnoDB engine
+- **MongoDB 5.0** - Document-oriented NoSQL database
+- **Neo4j 5.0** - Native graph database
+
+### Programming & Libraries
+- **Python 3.8+** - Primary language
+- **Faker** - Synthetic data generation
+- **psutil** - System resource monitoring
+- **matplotlib** - Data visualization
+- **tqdm** - Progress bars
+- **mysql-connector-python** - MySQL driver
+- **pymongo** - MongoDB driver
+- **neo4j-python-driver** - Neo4j Bolt driver
+
+---
+
+## 🔑 Key Findings
+
+### 1. **Query Type Matters More Than Database Type**
+Different queries favor different architectures. No single database wins across all categories.
+
+### 2. **Graph Databases Excel at Their Specialty**
+Neo4j's 19x advantage in shortest path queries demonstrates the value of specialized databases for specific workloads.
+
+### 3. **MongoDB Struggles with Relationships**
+Document stores require custom application logic for graph operations, resulting in 5-73 second penalties.
+
+### 4. **MySQL Recursive CTEs Are Powerful**
+Modern SQL databases can handle graph queries competently, making them viable for moderate graph workloads.
+
+### 5. **Aggregation Pipeline Optimization**
+MongoDB's aggregation framework outperforms traditional SQL GROUP BY operations.
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Here's how you can help:
+
+### Reporting Issues
+- Use GitHub Issues to report bugs
+- Include database versions and error messages
+- Provide steps to reproduce
+
+### Feature Requests
+- Query additions (3+ hop traversals, weighted paths)
+- Additional databases (PostgreSQL, Redis, ArangoDB)
+- Performance optimizations
+- Visualization improvements
+
+### Pull Requests
+1. Fork the repository
+2. Create feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit changes (`git commit -m 'Add AmazingFeature'`)
+4. Push to branch (`git push origin feature/AmazingFeature`)
+5. Open Pull Request
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License - see below for details:
+
+```
+MIT License
+
+Copyright (c) 2025 [Your Name/Organization]
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+
+---
+
+## 👥 Authors
+
+**Group 4 - Section 10**
+- [Your Name](https://github.com/yourusername)
+- [Team Member 2]
+- [Team Member 3]
+- [Team Member 4]
+
+**Course**: Data Warehousing (6102)  
+**Institution**: The George Washington University  
+**Year**: 2025
+
+---
+
+## 📧 Contact
+
+For questions or collaboration:
+- GitHub Issues: [Project Issues](https://github.com/yourusername/database-benchmark-network-analytics/issues)
+- Email: your.email@university.edu
+
+---
+
+## 🙏 Acknowledgments
+
+- Faker library for realistic test data generation
+- Database communities (MySQL, MongoDB, Neo4j) for excellent documentation
+- The George Washington University Data Warehousing course
+
+---
+
+## 📚 Further Reading
+
+- [MySQL Recursive CTEs Documentation](https://dev.mysql.com/doc/refman/8.0/en/with.html)
+- [MongoDB Aggregation Pipeline](https://docs.mongodb.com/manual/aggregation/)
+- [Neo4j Cypher Query Language](https://neo4j.com/docs/cypher-manual/current/)
+- [Graph Database Performance Patterns](https://neo4j.com/developer/guide-performance-tuning/)
+
+---
+
+**⭐ If you find this project helpful, please star the repository!**
+
